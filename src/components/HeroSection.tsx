@@ -27,11 +27,11 @@ const HeroSection = () => {
               {/* Main Image Container - 70% of screen height on mobile */}
               <div className="relative w-full h-[60vh] sm:h-[55vh] md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                  alt="Beautiful Indian woman in elegant red silk saree with traditional jewelry and graceful pose"
+                  src="https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1600&auto=format&fit=crop"
+                  alt="Model wearing an oversized sand hoodie"
                   className="w-full h-full object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-royal-red/15 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 
                 {/* Overlay content copied from left section */}
                 <div className="absolute bottom-2 left-3 right-3">
@@ -39,14 +39,14 @@ const HeroSection = () => {
                     <div className="flex items-center mb-2">
                       <Sparkles className="text-royal-gold mr-2" size={18} />
                       <span className="text-royal-brown font-medium tracking-wide text-xs sm:text-sm">
-                        Premium Indo-Western Collection
+                        Fresh Drop: Hoodies • Oversized Tees • T-Shirts
                       </span>
                     </div>
                     <h2 className="font-royal text-xl sm:text-2xl font-bold text-royal-red leading-snug">
-                      Embrace Your <span className="text-royal-gold">Royal Heritage</span>
+                      Wear Your <span className="text-royal-gold">Comfort</span>
                     </h2>
                     <p className="text-royal-brown/80 text-xs sm:text-sm mt-2">
-                      Discover exquisite Indo-Western clothing that blends traditional Indian craftsmanship with contemporary elegance. Perfect for every celebration.
+                      Street-ready hoodies, relaxed oversized T‑shirts, and everyday tees. Premium fabrics, clean fits, made for all‑day wear.
                     </p>
                   </div>
                 </div>

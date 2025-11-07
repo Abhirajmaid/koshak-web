@@ -63,11 +63,9 @@ const Footer = () => {
               <h3 className="font-royal text-base sm:text-lg font-semibold text-royal-gold">Categories</h3>
               <ul className="space-y-1.5">
                 {[
-                  { name: 'Kurtas & Kurtis', href: '/category/kurtas' },
-                  { name: 'Lehengas', href: '/category/lehengas' },
-                  { name: 'Sarees', href: '/category/sarees' },
-                  { name: 'Sherwanis', href: '/category/sherwanis' },
-                  { name: 'Indo-Western', href: '/category/indo-western' },
+                  { name: 'Oversized T-Shirts', href: '/category/oversized-tshirts' },
+                  { name: 'T-Shirts', href: '/category/tshirts' },
+                  { name: 'Hoodies', href: '/category/hoodies' },
                 ].map((category) => (
                   <li key={category.name}>
                     <Link 

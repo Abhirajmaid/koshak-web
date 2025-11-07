@@ -17,11 +17,9 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', href: '/' },
-    { name: 'Kurtas', href: '/category/kurtas' },
-    { name: 'Lehengas', href: '/category/lehengas' },
-    { name: 'Sarees', href: '/category/sarees' },
-    { name: 'Sherwanis', href: '/category/sherwanis' },
-    { name: 'Indo-Western', href: '/category/indo-western' },
+    { name: 'Oversized T-Shirts', href: '/category/oversized-tshirts' },
+    { name: 'T-Shirts', href: '/category/tshirts' },
+    { name: 'Hoodies', href: '/category/hoodies' },
     { name: 'About', href: '/about' },
   ];
 

@@ -31,13 +31,10 @@ const CategoryShowcase = () => {
         <div className="flex items-start gap-3 sm:gap-4 overflow-x-auto py-1">
           {categories.map((category, index) => {
             const categoryImages = {
-              'kurtas': 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'lehengas': 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'sarees': 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'sherwanis': 'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'indo-western': 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'accessories': 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-            };
+              'oversized-tshirts': 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop',
+              'tshirts': 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=800&auto=format&fit=crop',
+              'hoodies': 'https://images.unsplash.com/photo-1520971347561-4f0a0a1e496a?q=80&w=800&auto=format&fit=crop'
+            } as Record<string, string>;
 
             return (
               <motion.div
@@ -60,7 +57,7 @@ const CategoryShowcase = () => {
                 >
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-royal-gold overflow-hidden shadow-md bg-white">
                     <img 
-                      src={categoryImages[category.id as keyof typeof categoryImages] || categoryImages.kurtas}
+                      src={categoryImages[category.id as keyof typeof categoryImages] || categoryImages['tshirts']}
                       alt={`${category.name} collection`}
                       className="w-full h-full object-cover"
                     />

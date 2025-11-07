@@ -2,391 +2,363 @@ import { Product, Category } from '@/types';
 
 export const categories: Category[] = [
   {
-    id: 'kurtas',
-    name: 'Kurtas & Kurtis',
-    image: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Traditional and contemporary kurtas for every occasion. Discover our collection of handcrafted kurtas made from premium fabrics with intricate embroidery and modern cuts.'
+    id: 'oversized-tshirts',
+    name: 'Oversized T-Shirts',
+    image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop',
+    description: 'Relaxed, drapey fits with premium cotton blends for all-day comfort.'
   },
   {
-    id: 'lehengas',
-    name: 'Lehengas',
-    image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Elegant lehengas for weddings and festivals. From bridal lehengas with heavy work to party wear with contemporary designs, find your perfect outfit.'
+    id: 'tshirts',
+    name: 'T-Shirts',
+    image: 'https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop',
+    description: 'Everyday classic tees in soft fabrics and crisp fits.'
   },
   {
-    id: 'sarees',
-    name: 'Sarees',
-    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Timeless sarees in various fabrics and designs. Explore our collection of silk, cotton, and designer sarees perfect for every occasion.'
-  },
-  {
-    id: 'sherwanis',
-    name: 'Sherwanis',
-    image: 'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Royal sherwanis for grooms and special occasions. Handcrafted with premium fabrics and traditional embroidery for the perfect royal look.'
-  },
-  {
-    id: 'indo-western',
-    name: 'Indo-Western',
-    image: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Fusion wear blending traditional and modern styles. Contemporary designs that combine Indian aesthetics with western silhouettes.'
-  },
-  {
-    id: 'accessories',
-    name: 'Accessories',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    description: 'Traditional jewelry and accessories to complete your ethnic look. From kundan sets to statement pieces, find the perfect accessories.'
+    id: 'hoodies',
+    name: 'Hoodies',
+    image: 'https://images.unsplash.com/photo-1520974759018-6f61a147fbd1?q=80&w=1200&auto=format&fit=crop',
+    description: 'Cozy fleece and French terry hoodies built for year-round layering.'
   }
 ];
 
 export const products: Product[] = [
+  // Oversized T-Shirts
   {
-    id: '1',
-    name: 'Royal Maroon Silk Kurta',
-    price: 2499,
-    originalPrice: 3499,
-    image: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'os-001',
+    name: 'Oversized Heavyweight Tee - Black',
+    price: 999,
+    originalPrice: 1299,
+    image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'kurtas',
-    description: 'Luxurious silk kurta with intricate golden embroidery and traditional motifs.',
-    detailedDescription: 'This exquisite Royal Maroon Silk Kurta is a masterpiece of traditional Indian craftsmanship. Made from premium quality mulberry silk, it features intricate golden zardozi embroidery with paisley and floral motifs. The kurta has a classic straight cut with a comfortable fit, making it perfect for festivals, weddings, and special occasions. The rich maroon color symbolizes prosperity and elegance, while the golden threadwork adds a regal touch.',
+    category: 'oversized-tshirts',
+    description: 'Boxy silhouette, dropped shoulders, 240 GSM combed cotton.',
+    detailedDescription: 'Crafted from dense 240 GSM combed cotton, this oversized tee delivers a premium drape with a soft hand feel. Finished with a ribbed neck and double-needle hems for durability.',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['Maroon', 'Navy Blue', 'Emerald Green'],
+    colors: ['Black'],
     inStock: true,
     featured: true,
     rating: 4.8,
-    reviewCount: 127,
-    fabric: 'Pure Mulberry Silk',
-    occasion: ['Wedding', 'Festival', 'Party', 'Religious Ceremony'],
-    careInstructions: ['Dry clean only', 'Store in cool, dry place', 'Avoid direct sunlight', 'Iron on low heat'],
-    features: ['Hand-embroidered golden zardozi work', 'Premium silk fabric', 'Comfortable straight fit', 'Traditional collar design', 'Full sleeves'],
+    reviewCount: 214,
+    fabric: '240 GSM Combed Cotton',
+    occasion: ['Casual', 'Streetwear', 'Daily'],
+    careInstructions: ['Machine wash cold', 'Do not bleach', 'Tumble dry low', 'Warm iron inside out'],
+    features: ['Oversized fit', 'Dropped shoulders', 'Heavyweight fabric'],
     measurements: {
-      'S': { chest: '38"', length: '42"', shoulder: '16"' },
-      'M': { chest: '40"', length: '43"', shoulder: '17"' },
-      'L': { chest: '42"', length: '44"', shoulder: '18"' },
-      'XL': { chest: '44"', length: '45"', shoulder: '19"' },
-      'XXL': { chest: '46"', length: '46"', shoulder: '20"' }
+      'S': { chest: '42"', length: '27"' },
+      'M': { chest: '44"', length: '28"' },
+      'L': { chest: '46"', length: '29"' },
+      'XL': { chest: '48"', length: '30"' },
+      'XXL': { chest: '50"', length: '31"' }
     },
     specifications: {
-      'Fabric': 'Pure Mulberry Silk',
-      'Work': 'Zardozi Embroidery',
-      'Fit': 'Regular',
-      'Sleeve': 'Full Sleeve',
-      'Collar': 'Band Collar',
-      'Pattern': 'Embroidered'
+      'Neck': '1x1 rib',
+      'Fabric': '100% cotton',
+      'GSM': '240'
     },
-    tags: ['silk', 'embroidered', 'traditional', 'wedding', 'festival'],
-    sku: 'KSK-KUR-001',
-    weight: '400g',
-    origin: 'Handcrafted in Varanasi, India'
+    tags: ['oversized', 'heavyweight', 'streetwear'],
+    sku: 'KSK-OS-001',
+    weight: '320g',
+    origin: 'Made in India'
   },
   {
-    id: '2',
-    name: 'Golden Banarasi Lehenga',
-    price: 8999,
-    originalPrice: 12999,
-    image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'os-002',
+    name: 'Oversized Graphic Tee - Off White',
+    price: 1099,
+    originalPrice: 1399,
+    image: 'https://images.unsplash.com/photo-1526991756431-99b6a5f6d6b8?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1526991756431-99b6a5f6d6b8?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'lehengas',
-    description: 'Stunning Banarasi lehenga with heavy golden zardozi work and intricate thread embroidery.',
-    detailedDescription: 'This magnificent Golden Banarasi Lehenga is a testament to the rich heritage of Indian textile artistry. Crafted from premium silk with authentic Banarasi weaving, it features heavy golden zardozi work with intricate thread embroidery. The lehenga includes a fully lined skirt with can-can for perfect flare, a fitted choli with detailed work, and a matching dupatta. The golden color represents prosperity and is perfect for bridal wear and grand celebrations.',
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    colors: ['Golden', 'Red', 'Pink'],
+    category: 'oversized-tshirts',
+    description: 'Soft-hand screen print on breathable heavy cotton.',
+    detailedDescription: 'A relaxed tee with a vintage-inspired graphic print. Pre-shrunk fabric minimizes wash shrinkage.',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Off White'],
     inStock: true,
     featured: true,
-    rating: 4.9,
-    reviewCount: 89,
-    fabric: 'Banarasi Silk',
-    occasion: ['Wedding', 'Reception', 'Engagement', 'Festival'],
-    careInstructions: ['Dry clean only', 'Store with muslin cloth', 'Avoid perfume contact', 'Handle with care'],
-    features: ['Heavy zardozi work', 'Banarasi silk fabric', 'Can-can lining', 'Matching choli and dupatta', 'Bridal quality'],
+    rating: 4.6,
+    reviewCount: 132,
+    fabric: '220 GSM Cotton',
+    occasion: ['Casual'],
+    careInstructions: ['Wash inside out', 'Do not iron print'],
+    features: ['Oversized fit', 'Graphic print'],
     measurements: {
-      'XS': { waist: '26"', length: '42"' },
-      'S': { waist: '28"', length: '42"' },
-      'M': { waist: '30"', length: '42"' },
-      'L': { waist: '32"', length: '42"' },
-      'XL': { waist: '34"', length: '42"' }
+      'S': { chest: '42"', length: '27"' },
+      'M': { chest: '44"', length: '28"' },
+      'L': { chest: '46"', length: '29"' },
+      'XL': { chest: '48"', length: '30"' }
     },
     specifications: {
-      'Fabric': 'Banarasi Silk',
-      'Work': 'Zardozi & Thread Embroidery',
-      'Components': '3 Piece Set',
-      'Lining': 'Cotton with Can-Can',
-      'Closure': 'Side Zip',
-      'Dupatta': 'Matching Silk Dupatta'
+      'Print': 'Screen print',
+      'GSM': '220'
     },
-    tags: ['banarasi', 'bridal', 'golden', 'heavy work', 'wedding'],
-    sku: 'KSK-LEH-002',
-    weight: '1.2kg',
-    origin: 'Handwoven in Varanasi, India'
+    tags: ['oversized', 'graphic'],
+    sku: 'KSK-OS-002',
+    weight: '300g',
+    origin: 'Made in India'
   },
   {
-    id: '3',
-    name: 'Elegant Silk Saree',
-    price: 4999,
-    originalPrice: 6999,
-    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'os-003',
+    name: 'Oversized Washed Tee - Faded Blue',
+    price: 1199,
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'sarees',
-    description: 'Pure silk saree with traditional paisley motifs and rich golden border.',
-    detailedDescription: 'This Elegant Silk Saree embodies the timeless beauty of Indian traditional wear. Handwoven from pure silk by master craftsmen, it features intricate paisley motifs throughout the body and a rich golden border with traditional designs. The saree drapes beautifully and is perfect for formal occasions, festivals, and celebrations. Comes with a matching blouse piece that can be tailored to your measurements.',
-    sizes: ['Free Size'],
-    colors: ['Deep Red', 'Royal Blue', 'Emerald'],
+    category: 'oversized-tshirts',
+    description: 'Pigment-dyed vintage wash with soft drape.',
+    detailedDescription: 'Enzyme and silicon washed for a broken-in feel from day one. Boxy silhouette with dropped shoulders.',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Faded Blue'],
     inStock: true,
-    featured: true,
+    featured: false,
     rating: 4.7,
-    reviewCount: 156,
-    fabric: 'Pure Silk',
-    occasion: ['Wedding', 'Festival', 'Party', 'Office', 'Traditional Events'],
-    careInstructions: ['Dry clean recommended', 'Can be hand washed gently', 'Iron on medium heat', 'Store folded with tissue paper'],
-    features: ['Handwoven pure silk', 'Traditional paisley motifs', 'Rich golden border', 'Matching blouse piece', 'Easy draping'],
+    reviewCount: 88,
+    fabric: '230 GSM Cotton',
+    occasion: ['Casual'],
+    careInstructions: ['Wash separately for first 2 washes'],
+    features: ['Pigment dyed', 'Oversized'],
     measurements: {
-      'Free Size': { length: '5.5 meters', waist: 'Adjustable' }
+      'S': { chest: '42"', length: '27"' },
+      'M': { chest: '44"', length: '28"' },
+      'L': { chest: '46"', length: '29"' },
+      'XL': { chest: '48"', length: '30"' }
     },
     specifications: {
-      'Fabric': 'Pure Silk',
-      'Length': '5.5 meters',
-      'Width': '44 inches',
-      'Border': 'Woven Golden Border',
-      'Blouse': 'Matching Blouse Piece (0.8m)',
-      'Weave': 'Traditional Handloom'
+      'Dye': 'Pigment',
+      'GSM': '230'
     },
-    tags: ['silk', 'traditional', 'handwoven', 'paisley', 'golden border'],
-    sku: 'KSK-SAR-003',
-    weight: '600g',
-    origin: 'Handwoven in Kanchipuram, India'
+    tags: ['washed', 'oversized'],
+    sku: 'KSK-OS-003',
+    weight: '305g',
+    origin: 'Made in India'
   },
+
+  // Regular T-Shirts
   {
-    id: '4',
-    name: 'Regal Sherwani Set',
-    price: 6999,
-    originalPrice: 9999,
-    image: 'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'ts-001',
+    name: 'Classic Crewneck Tee - White',
+    price: 699,
+    originalPrice: 899,
+    image: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'sherwanis',
-    description: 'Complete regal sherwani set with matching churidar and silk dupatta.',
-    detailedDescription: 'This Regal Sherwani Set is the epitome of traditional Indian menswear elegance. Crafted from premium silk fabric, it features intricate thread work and golden buttons that add a royal touch. The set includes a perfectly tailored sherwani, matching churidar, and a silk dupatta. The classic cut and rich fabric make it ideal for grooms, wedding guests, and special celebrations.',
+    category: 'tshirts',
+    description: 'Everyday tee in breathable combed cotton.',
+    detailedDescription: 'Midweight 180 GSM cotton with a tailored regular fit. Rib neckline retains shape wash after wash.',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['Cream', 'Maroon', 'Golden'],
+    colors: ['White'],
     inStock: true,
     featured: true,
-    rating: 4.8,
-    reviewCount: 94,
-    fabric: 'Premium Silk',
-    occasion: ['Wedding', 'Engagement', 'Reception', 'Festival', 'Religious Ceremony'],
-    careInstructions: ['Dry clean only', 'Store on hangers', 'Avoid moisture', 'Iron with pressing cloth'],
-    features: ['Intricate thread work', 'Golden buttons', 'Complete 3-piece set', 'Tailored fit', 'Premium silk fabric'],
+    rating: 4.5,
+    reviewCount: 321,
+    fabric: '180 GSM Cotton',
+    occasion: ['Daily', 'Casual'],
+    careInstructions: ['Machine wash cold'],
+    features: ['Regular fit', 'Breathable'],
     measurements: {
-      'S': { chest: '38"', length: '40"', shoulder: '16"' },
-      'M': { chest: '40"', length: '41"', shoulder: '17"' },
-      'L': { chest: '42"', length: '42"', shoulder: '18"' },
-      'XL': { chest: '44"', length: '43"', shoulder: '19"' },
-      'XXL': { chest: '46"', length: '44"', shoulder: '20"' }
+      'S': { chest: '38"', length: '26"' },
+      'M': { chest: '40"', length: '27"' },
+      'L': { chest: '42"', length: '28"' },
+      'XL': { chest: '44"', length: '29"' },
+      'XXL': { chest: '46"', length: '30"' }
     },
     specifications: {
-      'Fabric': 'Premium Silk',
-      'Components': '3 Piece Set',
-      'Collar': 'Band Collar',
-      'Closure': 'Button Front',
-      'Fit': 'Regular Fit',
-      'Dupatta': 'Matching Silk Dupatta'
+      'Fabric': '100% cotton',
+      'GSM': '180'
     },
-    tags: ['sherwani', 'groom', 'wedding', 'traditional', 'silk'],
-    sku: 'KSK-SHE-004',
-    weight: '800g',
-    origin: 'Tailored in Lucknow, India'
+    tags: ['basic', 'tee'],
+    sku: 'KSK-TS-001',
+    weight: '220g',
+    origin: 'Made in India'
   },
   {
-    id: '5',
-    name: 'Indo-Western Fusion Dress',
-    price: 3499,
-    originalPrice: 4999,
-    image: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'ts-002',
+    name: 'Pocket Tee - Charcoal',
+    price: 799,
+    image: 'https://images.unsplash.com/photo-1520975592478-08b22a36f2d3?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1520975592478-08b22a36f2d3?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'indo-western',
-    description: 'Contemporary fusion dress combining traditional Indian embroidery with modern silhouettes.',
-    detailedDescription: 'This Indo-Western Fusion Dress perfectly blends traditional Indian craftsmanship with contemporary fashion. The dress features traditional embroidery work on a modern silhouette with an asymmetrical hemline. Made from premium fabric, it offers comfort and style for the modern woman who appreciates both tradition and contemporary fashion.',
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    colors: ['Black', 'Navy', 'Burgundy'],
+    category: 'tshirts',
+    description: 'Regular fit tee with chest pocket and soft wash.',
+    detailedDescription: 'Comfort-washed for a lived-in feel. Subtle pocket detail for everyday utility.',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Charcoal'],
+    inStock: true,
+    featured: false,
+    rating: 4.4,
+    reviewCount: 101,
+    fabric: '190 GSM Cotton',
+    occasion: ['Daily'],
+    careInstructions: ['Machine wash cold'],
+    features: ['Pocket', 'Regular fit'],
+    measurements: {
+      'S': { chest: '38"', length: '26"' },
+      'M': { chest: '40"', length: '27"' },
+      'L': { chest: '42"', length: '28"' },
+      'XL': { chest: '44"', length: '29"' }
+    },
+    specifications: {
+      'Fabric': '100% cotton',
+      'GSM': '190'
+    },
+    tags: ['pocket', 'tee'],
+    sku: 'KSK-TS-002',
+    weight: '230g',
+    origin: 'Made in India'
+  },
+  {
+    id: 'ts-003',
+    name: 'Ringer Tee - Navy/White',
+    price: 849,
+    image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1200&auto=format&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1200&auto=format&fit=crop'
+    ],
+    category: 'tshirts',
+    description: 'Retro contrast rib neck and sleeves.',
+    detailedDescription: 'A classic ringer tee with contrast ribbing and a clean tailored fit.',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Navy/White'],
     inStock: true,
     featured: false,
     rating: 4.6,
-    reviewCount: 73,
-    fabric: 'Premium Cotton Blend',
-    occasion: ['Party', 'Casual', 'Office', 'Date Night', 'Cocktail'],
-    careInstructions: ['Machine wash cold', 'Gentle cycle', 'Do not bleach', 'Iron on low heat'],
-    features: ['Traditional embroidery', 'Modern silhouette', 'Asymmetrical hemline', 'Comfortable fit', 'Versatile styling'],
+    reviewCount: 77,
+    fabric: '185 GSM Cotton',
+    occasion: ['Casual'],
+    careInstructions: ['Machine wash cold'],
+    features: ['Ringer rib'],
     measurements: {
-      'XS': { chest: '32"', waist: '26"', length: '38"' },
-      'S': { chest: '34"', waist: '28"', length: '38"' },
-      'M': { chest: '36"', waist: '30"', length: '39"' },
-      'L': { chest: '38"', waist: '32"', length: '39"' },
-      'XL': { chest: '40"', waist: '34"', length: '40"' }
+      'S': { chest: '38"', length: '26"' },
+      'M': { chest: '40"', length: '27"' },
+      'L': { chest: '42"', length: '28"' },
+      'XL': { chest: '44"', length: '29"' }
     },
     specifications: {
-      'Fabric': 'Cotton Blend',
-      'Fit': 'Regular Fit',
-      'Sleeve': 'Three Quarter',
-      'Neckline': 'Round Neck',
-      'Pattern': 'Embroidered',
-      'Closure': 'Back Zip'
+      'Fabric': '100% cotton',
+      'GSM': '185'
     },
-    tags: ['fusion', 'contemporary', 'embroidered', 'modern', 'versatile'],
-    sku: 'KSK-FUS-005',
-    weight: '300g',
-    origin: 'Designed in Mumbai, India'
+    tags: ['ringer', 'tee'],
+    sku: 'KSK-TS-003',
+    weight: '225g',
+    origin: 'Made in India'
   },
+
+  // Hoodies
   {
-    id: '6',
-    name: 'Traditional Jewelry Set',
-    price: 1999,
-    originalPrice: 2999,
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'hd-001',
+    name: 'Classic Fleece Hoodie - Grey',
+    price: 1799,
+    originalPrice: 2199,
+    image: 'https://images.unsplash.com/photo-1520971347561-4f0a0a1e496a?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1520971347561-4f0a0a1e496a?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'accessories',
-    description: 'Exquisite traditional jewelry set with kundan work necklace, matching earrings, and maang tikka.',
-    detailedDescription: 'This Traditional Jewelry Set is a perfect complement to any Indian outfit. Crafted with intricate kundan work, the set includes a statement necklace, matching earrings, and an elegant maang tikka. Each piece features premium quality stones and gold plating, making it perfect for weddings, festivals, and special occasions.',
-    sizes: ['Free Size'],
-    colors: ['Golden', 'Silver'],
-    inStock: true,
-    featured: false,
-    rating: 4.5,
-    reviewCount: 112,
-    fabric: 'Metal with Kundan Work',
-    occasion: ['Wedding', 'Festival', 'Party', 'Traditional Events'],
-    careInstructions: ['Store in jewelry box', 'Avoid water contact', 'Clean with soft cloth', 'Keep away from perfumes'],
-    features: ['Kundan work', 'Gold plating', '3-piece set', 'Premium stones', 'Traditional design'],
-    measurements: {
-      'Free Size': { length: 'Adjustable' }
-    },
-    specifications: {
-      'Material': 'Brass with Gold Plating',
-      'Stones': 'Kundan & Pearls',
-      'Components': 'Necklace, Earrings, Maang Tikka',
-      'Plating': '18K Gold Plated',
-      'Style': 'Traditional Indian',
-      'Closure': 'Hook & Eye'
-    },
-    tags: ['jewelry', 'kundan', 'traditional', 'wedding', 'gold plated'],
-    sku: 'KSK-JEW-006',
-    weight: '150g',
-    origin: 'Crafted in Jaipur, India'
-  },
-  {
-    id: '7',
-    name: 'Designer Anarkali Suit',
-    price: 4499,
-    originalPrice: 6499,
-    image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
-    ],
-    category: 'kurtas',
-    description: 'Elegant Anarkali suit with flowy silhouette and intricate mirror work.',
-    detailedDescription: 'This Designer Anarkali Suit combines traditional elegance with contemporary style. The flowy silhouette creates a graceful look, while intricate mirror work adds sparkle and glamour. The floor-length design with full sleeves offers modest coverage while maintaining a fashionable appeal. Complete with matching churidar and dupatta.',
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['Pink', 'Turquoise', 'Purple'],
+    category: 'hoodies',
+    description: 'Brushed fleece interior with kangaroo pocket and drawstring hood.',
+    detailedDescription: 'Soft cotton-rich fleece with a cozy brushed back. Rib cuffs and hem for a snug fit.',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['Grey'],
     inStock: true,
     featured: true,
     rating: 4.7,
-    reviewCount: 98,
-    fabric: 'Georgette',
-    occasion: ['Wedding', 'Party', 'Festival', 'Reception'],
-    careInstructions: ['Dry clean preferred', 'Hand wash gently', 'Iron on low heat', 'Store carefully'],
-    features: ['Mirror work', 'Flowy silhouette', 'Floor-length', 'Full sleeves', '3-piece set'],
+    reviewCount: 189,
+    fabric: '320 GSM Cotton-Poly Fleece',
+    occasion: ['Casual', 'Athleisure'],
+    careInstructions: ['Machine wash cold', 'Tumble dry low'],
+    features: ['Kangaroo pocket', 'Drawstring hood'],
     measurements: {
-      'S': { chest: '36"', length: '52"', shoulder: '14"' },
-      'M': { chest: '38"', length: '52"', shoulder: '15"' },
-      'L': { chest: '40"', length: '52"', shoulder: '16"' },
-      'XL': { chest: '42"', length: '52"', shoulder: '17"' }
+      'S': { chest: '40"', length: '26.5"' },
+      'M': { chest: '42"', length: '27.5"' },
+      'L': { chest: '44"', length: '28.5"' },
+      'XL': { chest: '46"', length: '29.5"' },
+      'XXL': { chest: '48"', length: '30.5"' }
     },
     specifications: {
-      'Fabric': 'Georgette',
-      'Work': 'Mirror Work',
-      'Components': '3 Piece Set',
-      'Fit': 'Flowy',
-      'Sleeve': 'Full Sleeve',
-      'Length': 'Floor Length'
+      'Fabric': 'Cotton/Poly',
+      'GSM': '320',
+      'Pockets': 'Kangaroo'
     },
-    tags: ['anarkali', 'mirror work', 'georgette', 'party wear', 'traditional'],
-    sku: 'KSK-ANA-007',
-    weight: '500g',
-    origin: 'Designed in Delhi, India'
+    tags: ['hoodie', 'fleece'],
+    sku: 'KSK-HD-001',
+    weight: '620g',
+    origin: 'Made in India'
   },
   {
-    id: '8',
-    name: 'Bridal Red Lehenga',
-    price: 15999,
-    originalPrice: 22999,
-    image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    id: 'hd-002',
+    name: 'Zip Hoodie - Black',
+    price: 1899,
+    image: 'https://images.unsplash.com/photo-1520974722077-c7ad8e5ad208?q=80&w=1200&auto=format&fit=crop',
     images: [
-      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1520974722077-c7ad8e5ad208?q=80&w=1200&auto=format&fit=crop'
     ],
-    category: 'lehengas',
-    description: 'Stunning bridal red lehenga with heavy zardozi and stone work.',
-    detailedDescription: 'This Bridal Red Lehenga is the ultimate choice for your special day. Crafted from premium silk with heavy zardozi work and stone embellishments, it features intricate golden embroidery that catches the light beautifully. The rich red color symbolizes love and prosperity, making it perfect for brides. The lehenga includes a heavily worked choli and matching dupatta.',
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    colors: ['Red', 'Maroon'],
+    category: 'hoodies',
+    description: 'Full-zip hoodie with metal zipper and jersey-lined hood.',
+    detailedDescription: 'Midweight loopback fabric for breathable warmth. Clean minimal branding.',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Black'],
     inStock: true,
-    featured: true,
-    rating: 4.9,
-    reviewCount: 67,
-    fabric: 'Premium Silk',
-    occasion: ['Wedding', 'Bridal', 'Reception'],
-    careInstructions: ['Dry clean only', 'Professional storage', 'Handle with extreme care', 'Avoid direct sunlight'],
-    features: ['Heavy zardozi work', 'Stone embellishments', 'Bridal quality', 'Premium silk', 'Traditional red'],
+    featured: false,
+    rating: 4.5,
+    reviewCount: 95,
+    fabric: '300 GSM Loopback',
+    occasion: ['Casual'],
+    careInstructions: ['Machine wash cold'],
+    features: ['Metal zipper', 'Jersey-lined hood'],
     measurements: {
-      'XS': { waist: '26"', length: '42"' },
-      'S': { waist: '28"', length: '42"' },
-      'M': { waist: '30"', length: '42"' },
-      'L': { waist: '32"', length: '42"' },
-      'XL': { waist: '34"', length: '42"' }
+      'S': { chest: '40"', length: '26.5"' },
+      'M': { chest: '42"', length: '27.5"' },
+      'L': { chest: '44"', length: '28.5"' },
+      'XL': { chest: '46"', length: '29.5"' }
     },
     specifications: {
-      'Fabric': 'Premium Silk',
-      'Work': 'Heavy Zardozi & Stone Work',
-      'Components': '3 Piece Bridal Set',
-      'Color': 'Traditional Bridal Red',
-      'Lining': 'Premium Cotton',
-      'Dupatta': 'Heavy Worked Dupatta'
+      'Fabric': 'Cotton/Poly',
+      'GSM': '300'
     },
-    tags: ['bridal', 'red lehenga', 'heavy work', 'wedding', 'traditional'],
-    sku: 'KSK-BRI-008',
-    weight: '1.5kg',
-    origin: 'Handcrafted in Rajasthan, India'
+    tags: ['zip', 'hoodie'],
+    sku: 'KSK-HD-002',
+    weight: '600g',
+    origin: 'Made in India'
+  },
+  {
+    id: 'hd-003',
+    name: 'Oversized Hoodie - Sand',
+    price: 1999,
+    image: 'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1200&auto=format&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1200&auto=format&fit=crop'
+    ],
+    category: 'hoodies',
+    description: 'Roomy silhouette with dropped shoulders and plush fleece.',
+    detailedDescription: 'A cozy oversized hoodie with a tonal drawcord, front pocket and rib trims. Ideal for travel and lounging.',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Sand'],
+    inStock: true,
+    featured: true,
+    rating: 4.8,
+    reviewCount: 141,
+    fabric: '330 GSM Fleece',
+    occasion: ['Casual', 'Lounge'],
+    careInstructions: ['Machine wash cold', 'Do not bleach'],
+    features: ['Oversized fit', 'Plush fleece'],
+    measurements: {
+      'S': { chest: '44"', length: '27.5"' },
+      'M': { chest: '46"', length: '28.5"' },
+      'L': { chest: '48"', length: '29.5"' },
+      'XL': { chest: '50"', length: '30.5"' }
+    },
+    specifications: {
+      'Fabric': 'Cotton/Poly',
+      'GSM': '330'
+    },
+    tags: ['oversized', 'hoodie'],
+    sku: 'KSK-HD-003',
+    weight: '650g',
+    origin: 'Made in India'
   }
 ];
