@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Menu, X, Search, Heart, User } from 'lucide-react';
+import { useProducts } from '@/contexts/ProductContext';
+import { buildCategoryOptions } from '@/utils/category';
 
 const hapticFeedback = () => {
   if (typeof window !== 'undefined' && 'vibrate' in navigator) {
@@ -14,14 +16,24 @@ const hapticFeedback = () => {
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount] = useState(0);
+  const { products } = useProducts();
 
-  const navItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Oversized T-Shirts', href: '/category/oversized-tshirts' },
-    { name: 'T-Shirts', href: '/category/tshirts' },
-    { name: 'Hoodies', href: '/category/hoodies' },
-    { name: 'About', href: '/about' },
-  ];
+  const categoryLinks = useMemo(
+    () => buildCategoryOptions(products).slice(0, 3),
+    [products],
+  );
+
+  const navItems = useMemo(
+    () => [
+      { name: 'Home', href: '/' },
+      ...categoryLinks.map((category) => ({
+        name: category.label,
+        href: `/category/${encodeURIComponent(category.key)}`,
+      })),
+      { name: 'About', href: '/about' },
+    ],
+    [categoryLinks],
+  );
 
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-royal-gold/20 shadow-lg">

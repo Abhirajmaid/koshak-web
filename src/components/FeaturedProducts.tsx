@@ -2,11 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { products } from '@/data/products';
-
-
+import { useProducts } from '@/contexts/ProductContext';
 
 const FeaturedProducts = () => {
+  const { products, isLoading } = useProducts();
   const featuredProducts = products.filter(product => product.featured);
 
   return (
@@ -31,7 +30,16 @@ const FeaturedProducts = () => {
 
         {/* Products Grid - Dual Column Layout */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-          {featuredProducts.map((product, index) => {
+          {(isLoading ? Array.from({ length: 4 }) : featuredProducts).map((product, index) => {
+            if (isLoading) {
+              return (
+                <div
+                  key={`featured-skeleton-${index}`}
+                  className="h-64 rounded-2xl bg-royal-grey/30 animate-pulse"
+                />
+              );
+            }
+
             return (
               <motion.div
                 key={product.id}
@@ -43,7 +51,9 @@ const FeaturedProducts = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link
-                  href={`/product/${product.id}`}
+                  href={`/product/${encodeURIComponent(
+                    product.slug || product.handle || product.id,
+                  )}?productId=${encodeURIComponent(product.id)}`}
                   onClick={() => {
                     if (typeof window !== 'undefined' && 'vibrate' in navigator) {
                       navigator.vibrate(50);
@@ -53,34 +63,34 @@ const FeaturedProducts = () => {
                 >
                   <div className="relative rounded-xl sm:rounded-2xl shadow-lg overflow-hidden card-hover aspect-[5/8] sm:aspect-[8/13] md:aspect-[5/8]">
                     {/* Product Image - Full Card */}
-                    <img 
+                    <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
                     {/* Discount Badge */}
-                    {product.originalPrice && (
+                    {product.originalPrice ? (
                       <div className="absolute top-2 left-2 bg-royal-red text-white px-2 py-1 rounded-full text-xs font-semibold z-30">
                         {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
                       </div>
-                    )}
+                    ) : null}
 
                     {/* Product Info Overlay - Bottom */}
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-3 sm:p-4">
                       <h3 className="font-semibold text-white mb-1 text-sm sm:text-base line-clamp-1">
                         {product.name}
                       </h3>
-                      
+
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-white text-sm sm:text-base">
                           ₹{product.price.toLocaleString()}
                         </span>
-                        {product.originalPrice && (
+                        {product.originalPrice ? (
                           <span className="text-white/70 text-xs line-through">
                             ₹{product.originalPrice.toLocaleString()}
                           </span>
-                        )}
+                        ) : null}
                       </div>
                     </div>
 

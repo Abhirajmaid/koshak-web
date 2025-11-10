@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
 import { Product } from '@/types';
-import { products } from '@/data/products';
+import { useProducts } from '@/contexts/ProductContext';
 
 interface CompareContextType {
   compareList: Product[];
@@ -27,52 +27,64 @@ interface CompareProviderProps {
   children: ReactNode;
 }
 
+const getInitialCompareIds = (): string[] => {
+  if (typeof window === 'undefined') {
+    return [];
+  }
+  const saved = localStorage.getItem('compareList');
+  if (!saved) {
+    return [];
+  }
+  try {
+    return JSON.parse(saved) as string[];
+  } catch (error) {
+    console.error('Error parsing compare list from storage:', error);
+    localStorage.removeItem('compareList');
+    return [];
+  }
+};
+
 export const CompareProvider = ({ children }: CompareProviderProps) => {
-  const [compareList, setCompareList] = useState<Product[]>([]);
+  const [compareIds, setCompareIds] = useState<string[]>(getInitialCompareIds);
+  const { products: catalogProducts } = useProducts();
 
   useEffect(() => {
-    // Load compare list from localStorage on mount
-    const saved = localStorage.getItem('compareList');
-    if (saved) {
-      try {
-        const productIds = JSON.parse(saved);
-        const savedProducts = products.filter(p => productIds.includes(p.id));
-        setCompareList(savedProducts);
-      } catch (error) {
-        console.error('Error loading compare list:', error);
-        localStorage.removeItem('compareList');
-      }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('compareList', JSON.stringify(compareIds));
     }
-  }, []);
+  }, [compareIds]);
+
+  const compareList = useMemo(
+    () => catalogProducts.filter((product) => compareIds.includes(product.id)).slice(0, 3),
+    [catalogProducts, compareIds],
+  );
 
   const addToCompare = (product: Product): boolean => {
-    if (compareList.length >= 3) {
+    if (compareIds.length >= 3) {
       return false; // Maximum 3 products can be compared
     }
-    
-    if (compareList.some(p => p.id === product.id)) {
+
+    if (compareIds.includes(product.id)) {
       return false; // Product already in compare list
     }
 
-    const newCompareList = [...compareList, product];
-    setCompareList(newCompareList);
-    localStorage.setItem('compareList', JSON.stringify(newCompareList.map(p => p.id)));
+    setCompareIds((prev) => [...prev, product.id]);
     return true;
   };
 
   const removeFromCompare = (productId: string) => {
-    const newCompareList = compareList.filter(p => p.id !== productId);
-    setCompareList(newCompareList);
-    localStorage.setItem('compareList', JSON.stringify(newCompareList.map(p => p.id)));
+    setCompareIds((prev) => prev.filter((id) => id !== productId));
   };
 
   const clearCompare = () => {
-    setCompareList([]);
-    localStorage.removeItem('compareList');
+    setCompareIds([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('compareList');
+    }
   };
 
   const isInCompare = (productId: string): boolean => {
-    return compareList.some(p => p.id === productId);
+    return compareIds.includes(productId);
   };
 
   const value: CompareContextType = {
@@ -81,7 +93,7 @@ export const CompareProvider = ({ children }: CompareProviderProps) => {
     removeFromCompare,
     clearCompare,
     isInCompare,
-    compareCount: compareList.length,
+    compareCount: compareIds.length,
   };
 
   return (

@@ -1,20 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { X, Star, Scale, ArrowRight } from 'lucide-react';
-import { Product } from '@/types';
-import { products } from '@/data/products';
+import { useCompare } from '@/contexts/CompareContext';
 
 interface CompareProductsProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface BuyNowItem {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  size: string;
+  color: string;
+  quantity: number;
+}
+
 const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
-  const [compareList, setCompareList] = useState<Product[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const { compareList, removeFromCompare, clearCompare } = useCompare();
 
   const hapticFeedback = () => {
     if (typeof window !== 'undefined' && 'vibrate' in navigator) {
@@ -22,35 +30,13 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
     }
   };
 
-  useEffect(() => {
-    // Load compare list from localStorage
-    const saved = localStorage.getItem('compareList');
-    if (saved) {
-      const productIds = JSON.parse(saved);
-      const savedProducts = products.filter(p => productIds.includes(p.id));
-      setCompareList(savedProducts);
-    }
-  }, []);
-
-  const addToCompare = (product: Product) => {
-    if (compareList.length >= 3) return;
-    
-    const newCompareList = [...compareList, product];
-    setCompareList(newCompareList);
-    localStorage.setItem('compareList', JSON.stringify(newCompareList.map(p => p.id)));
+  const handleRemove = (productId: string) => {
+    removeFromCompare(productId);
     hapticFeedback();
   };
 
-  const removeFromCompare = (productId: string) => {
-    const newCompareList = compareList.filter(p => p.id !== productId);
-    setCompareList(newCompareList);
-    localStorage.setItem('compareList', JSON.stringify(newCompareList.map(p => p.id)));
-    hapticFeedback();
-  };
-
-  const clearCompare = () => {
-    setCompareList([]);
-    localStorage.removeItem('compareList');
+  const handleClear = () => {
+    clearCompare();
     hapticFeedback();
   };
 
@@ -84,7 +70,7 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
               {compareList.length > 0 && (
                 <motion.button
                   whileTap={{ scale: 0.95 }}
-                  onClick={clearCompare}
+                  onClick={handleClear}
                   className="text-royal-brown/60 hover:text-red-500 transition-colors text-sm"
                 >
                   Clear All
@@ -127,7 +113,7 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
                     <div key={product.id} className="bg-royal-cream/20 rounded-xl p-4 relative flex flex-col h-full">
                       <motion.button
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => removeFromCompare(product.id)}
+                        onClick={() => handleRemove(product.id)}
                         className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-royal-brown/60 hover:text-red-500 transition-colors"
                       >
                         <X size={14} />
@@ -174,7 +160,7 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
                       <button
                         onClick={() => {
                           // Create a minimal buy-now item and go directly to checkout
-                          const buyNowItem = {
+                          const buyNowItem: BuyNowItem = {
                             id: product.id,
                             name: product.name,
                             price: product.price,
@@ -183,7 +169,7 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
                             size: product.sizes?.[0] || "",
                             color: product.colors?.[0] || "",
                             quantity: 1,
-                          } as any;
+                          };
                           localStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
                           onClose();
                           window.location.href = '/checkout?buyNow=true';

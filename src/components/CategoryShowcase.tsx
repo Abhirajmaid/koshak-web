@@ -2,11 +2,17 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { categories } from '@/data/products';
 import { ArrowRight } from 'lucide-react';
-
+import { useProducts } from '@/contexts/ProductContext';
+import { buildCategoryOptions } from '@/utils/category';
 
 const CategoryShowcase = () => {
+  const { products, isLoading } = useProducts();
+  const categoryOptions = buildCategoryOptions(products);
+
+  const visibleCategories = categoryOptions.slice(0, 8);
+  const showSkeletons = isLoading && visibleCategories.length === 0;
+
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
@@ -29,16 +35,16 @@ const CategoryShowcase = () => {
 
         {/* Categories Stories - Horizontal circles */}
         <div className="flex items-start gap-3 sm:gap-4 overflow-x-auto py-1">
-          {categories.map((category, index) => {
-            const categoryImages = {
-              'oversized-tshirts': 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop',
-              'tshirts': 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=800&auto=format&fit=crop',
-              'hoodies': 'https://images.unsplash.com/photo-1520971347561-4f0a0a1e496a?q=80&w=800&auto=format&fit=crop'
-            } as Record<string, string>;
-
-            return (
+          {showSkeletons
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={`category-skeleton-${index}`}
+                  className="w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-full bg-royal-cream/60 animate-pulse"
+                />
+              ))
+            : visibleCategories.map((category, index) => (
               <motion.div
-                key={category.id}
+                key={category.key}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
@@ -47,7 +53,7 @@ const CategoryShowcase = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link 
-                  href={`/category/${category.id}`}
+                  href={`/category/${encodeURIComponent(category.key)}`}
                   onClick={() => {
                     if (typeof window !== 'undefined' && 'vibrate' in navigator) {
                       navigator.vibrate(50);
@@ -55,22 +61,32 @@ const CategoryShowcase = () => {
                   }}
                   className="block"
                 >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-royal-gold overflow-hidden shadow-md bg-white">
-                    <img 
-                      src={categoryImages[category.id as keyof typeof categoryImages] || categoryImages['tshirts']}
-                      alt={`${category.name} collection`}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-royal-gold overflow-hidden shadow-md bg-white flex items-center justify-center">
+                    {category.image ? (
+                      <img 
+                        src={category.image}
+                        alt={`${category.label} collection`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="font-royal text-xs sm:text-sm text-royal-red px-2">
+                        {category.label.charAt(0) || '#'}
+                      </span>
+                    )}
                   </div>
                   <div className="mt-2">
                     <h3 className="font-royal text-xs sm:text-sm font-semibold text-royal-red whitespace-nowrap">
-                      {category.name}
+                      {category.label}
                     </h3>
                   </div>
                 </Link>
               </motion.div>
-            );
-          })}
+            ))}
+          {(!showSkeletons && visibleCategories.length === 0) && (
+            <div className="text-center text-royal-brown/70 text-sm">
+              Add a product to see categories here.
+            </div>
+          )}
         </div>
 
         {/* Call to Action */}

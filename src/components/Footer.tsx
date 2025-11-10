@@ -1,7 +1,15 @@
+"use client";
+
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { useProducts } from '@/contexts/ProductContext';
+import { buildCategoryOptions } from '@/utils/category';
 
 const Footer = () => {
+  const { products } = useProducts();
+  const categories = useMemo(() => buildCategoryOptions(products).slice(0, 6), [products]);
+
   return (
     <footer className="bg-gradient-to-br from-royal-brown to-royal-maroon text-royal-cream">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
@@ -62,20 +70,22 @@ const Footer = () => {
             <div className="space-y-3">
               <h3 className="font-royal text-base sm:text-lg font-semibold text-royal-gold">Categories</h3>
               <ul className="space-y-1.5">
-                {[
-                  { name: 'Oversized T-Shirts', href: '/category/oversized-tshirts' },
-                  { name: 'T-Shirts', href: '/category/tshirts' },
-                  { name: 'Hoodies', href: '/category/hoodies' },
-                ].map((category) => (
-                  <li key={category.name}>
-                    <Link 
-                      href={category.href}
-                      className="text-royal-cream/80 hover:text-royal-gold transition-colors duration-300 text-xs sm:text-sm"
-                    >
-                      {category.name}
-                    </Link>
+                {categories.length ? (
+                  categories.map((category) => (
+                    <li key={category.key}>
+                      <Link 
+                        href={`/category/${encodeURIComponent(category.key)}`}
+                        className="text-royal-cream/80 hover:text-royal-gold transition-colors duration-300 text-xs sm:text-sm"
+                      >
+                        {category.label}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-royal-cream/60 text-xs sm:text-sm">
+                    Categories will appear once products are added.
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { products } from "@/data/products";
+import { useProducts } from "@/contexts/ProductContext";
 import {
   Heart,
   ShoppingBag,
@@ -23,9 +23,17 @@ import {
 } from "lucide-react";
 import { useCompare } from "@/contexts/CompareContext";
 import CompareProducts from "@/components/CompareProducts";
+import {
+  computeProductHandle,
+  formToCatalogProduct,
+  getProductForm,
+  listProductForms,
+} from "@/services/products";
+import type { Product } from "@/types";
+import type { ProductFormData } from "@/types/admin";
 
 // Fake reviews data to make the product page look realistic
-const generateFakeReviews = (productId: string) => {
+const generateFakeReviews = () => {
   const reviewTemplates = [
     {
       name: "Priya Sharma",
@@ -81,10 +89,24 @@ interface ProductClientProps {
   params: {
     id: string;
   };
+  searchParams?: {
+    productId?: string;
+  };
 }
 
-const ProductClient = ({ params }: ProductClientProps) => {
-  const product = products.find((p) => p.id === params.id);
+interface LocalCartItem {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  size: string;
+  color: string;
+  quantity: number;
+}
+
+const ProductClient = ({ params, searchParams }: ProductClientProps) => {
+  const { products: catalogProducts, isLoading } = useProducts();
   const router = useRouter();
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -93,8 +115,17 @@ const ProductClient = ({ params }: ProductClientProps) => {
   const [activeTab, setActiveTab] = useState("description");
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isFetchingProduct, setIsFetchingProduct] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   const { addToCompare, isInCompare, compareCount } = useCompare();
+
+  const estimatedDeliveryDate = useMemo(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 5);
+    return date.toLocaleDateString("en-IN");
+  }, []);
 
   const hapticFeedback = () => {
     if (typeof window !== "undefined" && "vibrate" in navigator) {
@@ -102,11 +133,151 @@ const ProductClient = ({ params }: ProductClientProps) => {
     }
   };
 
+  const previewMode = searchParams?.preview === "true";
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const resolveProduct = async () => {
+      const rawParam = params.id ?? "";
+      const explicitProductId = searchParams?.productId ?? "";
+      const decodedParam = decodeURIComponent(rawParam);
+      const paramValue = decodedParam.trim();
+      if (!paramValue) {
+        setProduct(null);
+        setFetchError("Product not found.");
+        setIsFetchingProduct(false);
+        return;
+      }
+
+      setFetchError(null);
+      setIsFetchingProduct(true);
+
+      if (previewMode) {
+        try {
+          const stored = localStorage.getItem("productPreviewForm");
+          if (!stored) {
+            setProduct(null);
+            setFetchError("Preview data not found. Save or provide product details before previewing.");
+            setIsFetchingProduct(false);
+            return;
+          }
+
+          const parsedForm: ProductFormData = JSON.parse(stored);
+          const previewProduct = formToCatalogProduct(parsedForm);
+
+          if (!cancelled) {
+            setProduct(previewProduct);
+            setIsFetchingProduct(false);
+          }
+
+          return;
+        } catch (error) {
+          console.error("Failed to load preview data", error);
+          if (!cancelled) {
+            setProduct(null);
+            setFetchError("Unable to load preview. Please try again.");
+            setIsFetchingProduct(false);
+          }
+          return;
+        }
+      }
+
+      const normalizedParam = paramValue.toLowerCase();
+
+      const matchFromContext = catalogProducts.find((candidate) => {
+        const identifiers = [candidate.id, candidate.slug, candidate.handle].filter(Boolean) as string[];
+        return identifiers.some((identifier) => identifier.toLowerCase() === normalizedParam);
+      });
+
+      if (matchFromContext) {
+        if (!cancelled) {
+          setProduct(matchFromContext);
+          setIsFetchingProduct(false);
+        }
+        return;
+      }
+
+      const docCandidates = Array.from(
+        new Set(
+          [explicitProductId, paramValue, normalizedParam, rawParam]
+            .map((value) => value?.trim())
+            .filter(Boolean),
+        ),
+      ) as string[];
+
+      for (const docId of docCandidates) {
+        try {
+          const form = await getProductForm(docId);
+          if (form) {
+            if (!cancelled) {
+              setProduct(formToCatalogProduct(form));
+              setIsFetchingProduct(false);
+            }
+            return;
+          }
+        } catch (error) {
+          console.warn(`Failed to load product doc ${docId}`, error);
+        }
+      }
+
+      try {
+        const forms = await listProductForms();
+        const matchedForm =
+          forms.find((candidate) => {
+            const identifiers = [
+              candidate.basicInfo.productId?.trim(),
+              candidate.basicInfo.slug?.trim(),
+              computeProductHandle(candidate),
+            ].filter(Boolean) as string[];
+
+            return identifiers.some(
+              (identifier) => identifier.toLowerCase() === normalizedParam,
+            );
+          }) ?? null;
+
+        if (!cancelled) {
+          if (matchedForm) {
+            setProduct(formToCatalogProduct(matchedForm));
+            setIsFetchingProduct(false);
+          } else {
+            setProduct(null);
+            setFetchError("Product not found.");
+            setIsFetchingProduct(false);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load product catalog", error);
+        if (!cancelled) {
+          setProduct(null);
+          setFetchError("We couldn't load this product. Please try again later.");
+          setIsFetchingProduct(false);
+        }
+      }
+    };
+
+    resolveProduct();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [params.id, searchParams?.productId, previewMode, catalogProducts, isLoading]);
+
   const handleAddToCompare = () => {
     if (product && addToCompare(product)) {
       hapticFeedback();
     }
   };
+
+  if (isLoading || isFetchingProduct) {
+    return (
+      <div className="min-h-screen bg-royal-grey/30 py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-royal-brown/70">
+          Loading product details…
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -116,7 +287,7 @@ const ProductClient = ({ params }: ProductClientProps) => {
             Product Not Found
           </h1>
           <p className="text-royal-brown/70 mb-8">
-            The product you're looking for doesn't exist.
+            {fetchError ?? "The product you&apos;re looking for doesn&apos;t exist or may have been removed."}
           </p>
           <Link href="/products" className="btn-primary">
             Back to Products
@@ -126,9 +297,13 @@ const ProductClient = ({ params }: ProductClientProps) => {
     );
   }
 
-  const relatedProducts = products
+  const relatedProducts = catalogProducts
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
+
+  const productImages = product.images.length
+    ? product.images
+    : [product.image || "https://placehold.co/600x800?text=Koshak"];
 
   return (
     <div className="min-h-screen bg-royal-grey/30 py-8 pb-32">
@@ -160,7 +335,7 @@ const ProductClient = ({ params }: ProductClientProps) => {
             {/* Main Image */}
             <div className="relative aspect-square rounded-xl lg:rounded-2xl overflow-hidden shadow-lg">
               <img
-                src={product.images[activeImageIndex]}
+                src={productImages[activeImageIndex]}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
@@ -193,7 +368,7 @@ const ProductClient = ({ params }: ProductClientProps) => {
 
             {/* Thumbnail Images */}
             <div className="grid grid-cols-4 gap-2 sm:gap-4">
-              {product.images.map((image, index) => (
+              {productImages.map((image, index) => (
                 <motion.button
                   key={index}
                   type="button"
@@ -453,23 +628,23 @@ const ProductClient = ({ params }: ProductClientProps) => {
                   hapticFeedback();
                   // Add to cart functionality
                   if (selectedSize && selectedColor && product.inStock) {
-                    const cartItem = {
+                    const cartItem: LocalCartItem = {
                       id: product.id,
                       name: product.name,
                       price: product.price,
                       originalPrice: product.originalPrice,
-                      image: product.images[0],
+                      image: productImages[0],
                       size: selectedSize,
                       color: selectedColor,
                       quantity: quantity,
                     };
 
                     // Store in localStorage for now (in real app, use proper state management)
-                    const existingCart = JSON.parse(
+                    const existingCart: LocalCartItem[] = JSON.parse(
                       localStorage.getItem("cart") || "[]"
                     );
                     const existingItemIndex = existingCart.findIndex(
-                      (item: any) =>
+                      (item) =>
                         item.id === product.id &&
                         item.size === selectedSize &&
                         item.color === selectedColor
@@ -499,12 +674,12 @@ const ProductClient = ({ params }: ProductClientProps) => {
                   hapticFeedback();
                   // Buy now functionality - redirect to checkout with this item
                   if (selectedSize && selectedColor && product.inStock) {
-                    const buyNowItem = {
+                    const buyNowItem: LocalCartItem = {
                       id: product.id,
                       name: product.name,
                       price: product.price,
                       originalPrice: product.originalPrice,
-                      image: product.images[0],
+                      image: productImages[0],
                       size: selectedSize,
                       color: selectedColor,
                       quantity: quantity,
@@ -591,10 +766,7 @@ const ProductClient = ({ params }: ProductClientProps) => {
                     ✓ Cash on Delivery Available
                   </p>
                   <p className="text-royal-brown/60">
-                    Estimated delivery:{" "}
-                    {new Date(
-                      Date.now() + 5 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString("en-IN")}
+                    Estimated delivery: {estimatedDeliveryDate}
                   </p>
                 </div>
               </div>
@@ -885,7 +1057,7 @@ const ProductClient = ({ params }: ProductClientProps) => {
             </div>
 
             <div className="space-y-6">
-              {generateFakeReviews(product.id).map((review, index) => (
+              {generateFakeReviews().map((review, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -1024,7 +1196,9 @@ const ProductClient = ({ params }: ProductClientProps) => {
               {relatedProducts.map((relatedProduct) => (
                 <Link
                   key={relatedProduct.id}
-                  href={`/product/${relatedProduct.id}`}
+                  href={`/product/${encodeURIComponent(
+                    relatedProduct.slug || relatedProduct.handle || relatedProduct.id,
+                  )}?productId=${encodeURIComponent(relatedProduct.id)}`}
                   className="group"
                 >
                   <div className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
@@ -1073,19 +1247,19 @@ const ProductClient = ({ params }: ProductClientProps) => {
                     onClick={() => {
                       hapticFeedback();
                       if (selectedSize && selectedColor && product.inStock) {
-                        const cartItem = {
+                        const cartItem: LocalCartItem = {
                           id: product.id,
                           name: product.name,
                           price: product.price,
                           originalPrice: product.originalPrice,
-                          image: product.images[0],
+                          image: productImages[0],
                           size: selectedSize,
                           color: selectedColor,
                           quantity: quantity,
                         };
-                        const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+                        const existingCart: LocalCartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
                         const existingItemIndex = existingCart.findIndex(
-                          (item: any) => item.id === product.id && item.size === selectedSize && item.color === selectedColor
+                          (item) => item.id === product.id && item.size === selectedSize && item.color === selectedColor
                         );
                         if (existingItemIndex >= 0) {
                           existingCart[existingItemIndex].quantity += quantity;
