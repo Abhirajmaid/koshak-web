@@ -91,6 +91,7 @@ interface ProductClientProps {
   };
   searchParams?: {
     productId?: string;
+    preview?: string;
   };
 }
 

@@ -25,6 +25,7 @@ export const products: Product[] = [
   // Oversized T-Shirts
   {
     id: 'os-001',
+    handle: 'oversized-heavyweight-tee-black',
     name: 'Oversized Heavyweight Tee - Black',
     price: 999,
     originalPrice: 1299,
@@ -65,6 +66,7 @@ export const products: Product[] = [
   },
   {
     id: 'os-002',
+    handle: 'oversized-graphic-tee-off-white',
     name: 'Oversized Graphic Tee - Off White',
     price: 1099,
     originalPrice: 1399,
@@ -102,6 +104,7 @@ export const products: Product[] = [
   },
   {
     id: 'os-003',
+    handle: 'oversized-washed-tee-faded-blue',
     name: 'Oversized Washed Tee - Faded Blue',
     price: 1199,
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop',
@@ -140,6 +143,7 @@ export const products: Product[] = [
   // Regular T-Shirts
   {
     id: 'ts-001',
+    handle: 'classic-crewneck-tee-white',
     name: 'Classic Crewneck Tee - White',
     price: 699,
     originalPrice: 899,
@@ -178,6 +182,7 @@ export const products: Product[] = [
   },
   {
     id: 'ts-002',
+    handle: 'pocket-tee-charcoal',
     name: 'Pocket Tee - Charcoal',
     price: 799,
     image: 'https://images.unsplash.com/photo-1520975592478-08b22a36f2d3?q=80&w=1200&auto=format&fit=crop',
@@ -214,6 +219,7 @@ export const products: Product[] = [
   },
   {
     id: 'ts-003',
+    handle: 'ringer-tee-navy-white',
     name: 'Ringer Tee - Navy/White',
     price: 849,
     image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1200&auto=format&fit=crop',
@@ -252,6 +258,7 @@ export const products: Product[] = [
   // Hoodies
   {
     id: 'hd-001',
+    handle: 'classic-fleece-hoodie-grey',
     name: 'Classic Fleece Hoodie - Grey',
     price: 1799,
     originalPrice: 2199,
@@ -291,6 +298,7 @@ export const products: Product[] = [
   },
   {
     id: 'hd-002',
+    handle: 'zip-hoodie-black',
     name: 'Zip Hoodie - Black',
     price: 1899,
     image: 'https://images.unsplash.com/photo-1520974722077-c7ad8e5ad208?q=80&w=1200&auto=format&fit=crop',
@@ -327,6 +335,7 @@ export const products: Product[] = [
   },
   {
     id: 'hd-003',
+    handle: 'oversized-hoodie-sand',
     name: 'Oversized Hoodie - Sand',
     price: 1999,
     image: 'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1200&auto=format&fit=crop',

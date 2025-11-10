@@ -30,17 +30,15 @@ const FeaturedProducts = () => {
 
         {/* Products Grid - Dual Column Layout */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-          {(isLoading ? Array.from({ length: 4 }) : featuredProducts).map((product, index) => {
-            if (isLoading) {
-              return (
-                <div
-                  key={`featured-skeleton-${index}`}
-                  className="h-64 rounded-2xl bg-royal-grey/30 animate-pulse"
-                />
-              );
-            }
-
-            return (
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={`featured-skeleton-${index}`}
+                className="h-64 rounded-2xl bg-royal-grey/30 animate-pulse"
+              />
+            ))
+          ) : (
+            featuredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 50 }}
@@ -99,8 +97,8 @@ const FeaturedProducts = () => {
                   </div>
                 </Link>
               </motion.div>
-            );
-          })}
+            ))
+          )}
         </div>
 
         {/* View All Button */}
