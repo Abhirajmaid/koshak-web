@@ -28,12 +28,18 @@ const CartPage = () => {
     );
     setCartItems(updatedItems);
     localStorage.setItem('cart', JSON.stringify(updatedItems));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cart-updated'));
+    }
   };
 
   const removeItem = (id: string) => {
     const updatedItems = cartItems.filter(item => item.id !== id);
     setCartItems(updatedItems);
     localStorage.setItem('cart', JSON.stringify(updatedItems));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cart-updated'));
+    }
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -60,7 +66,7 @@ const CartPage = () => {
               Looks like you haven't added any items to your cart yet.
             </p>
             <Link
-              href="/products"
+              href="/"
               className="btn-primary inline-flex items-center"
             >
               <ArrowLeft className="mr-2" size={20} />
@@ -84,7 +90,7 @@ const CartPage = () => {
         >
           <motion.div whileTap={{ scale: 0.95 }}>
             <Link
-              href="/products"
+              href="/"
               onClick={() => {
                 if (typeof window !== 'undefined' && 'vibrate' in navigator) {
                   navigator.vibrate(50);
@@ -282,6 +288,19 @@ const CartPage = () => {
                   Proceed to Checkout
                 </Link>
               </motion.div>
+              <motion.div whileTap={{ scale: 0.95 }}>
+                <Link
+                  href="/"
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+                      navigator.vibrate(50);
+                    }
+                  }}
+                  className="w-full btn-secondary text-center block mb-3 sm:mb-4 py-3 sm:py-4 text-sm sm:text-base"
+                >
+                  Back to Shopping
+                </Link>
+              </motion.div>
 
               <div className="text-center">
                 <div className="flex items-center justify-center space-x-4 text-sm text-royal-brown/60">
@@ -290,29 +309,7 @@ const CartPage = () => {
                 </div>
               </div>
 
-              {/* Recommended Products */}
-              <div className="mt-8 pt-6 border-t border-royal-brown/20">
-                <h3 className="font-semibold text-royal-red mb-4">You might also like</h3>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Traditional Jewelry Set', price: 1999 },
-                    { name: 'Silk Dupatta', price: 899 }
-                  ].map((product, index) => (
-                    <div key={index} className="flex items-center space-x-3 p-3 bg-royal-cream/20 rounded-lg hover:bg-royal-cream/40 transition-colors duration-300 cursor-pointer">
-                      <div className="w-12 h-12 bg-gradient-to-br from-royal-red to-royal-maroon rounded-lg flex items-center justify-center">
-                        <span className="text-royal-gold text-sm font-royal">
-                          {product.name.charAt(0)}
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-royal-red">{product.name}</p>
-                        <p className="text-sm text-royal-brown/70">₹{product.price.toLocaleString()}</p>
-                      </div>
-                      <Plus size={16} className="text-royal-brown/50" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              
             </motion.div>
           </div>
         </div>

@@ -1085,13 +1085,6 @@ export const AdminDashboard = ({ adminEmail, onSignOut }: AdminDashboardProps) =
               </div>
               <div className="grid gap-3 md:grid-cols-3">
                 <ToggleInput
-                  label="Mark as Featured"
-                  checked={formData.seo.featured}
-                  onChange={(checked) =>
-                    updateForm("seo", (prev) => ({ ...prev, featured: checked }))
-                  }
-                />
-                <ToggleInput
                   label="Mark as New Arrival"
                   checked={formData.seo.newArrival}
                   onChange={(checked) =>
@@ -1105,6 +1098,21 @@ export const AdminDashboard = ({ adminEmail, onSignOut }: AdminDashboardProps) =
                     updateForm("seo", (prev) => ({ ...prev, bestSeller: checked }))
                   }
                 />
+              </div>
+            </Section>
+
+            <Section title="Featured">
+              <div className="bg-white/5 rounded-xl border border-white/10 p-4">
+                <ToggleInput
+                  label="Add this product to Featured section"
+                  checked={formData.seo.featured}
+                  onChange={(checked) =>
+                    updateForm("seo", (prev) => ({ ...prev, featured: checked }))
+                  }
+                />
+                <p className="mt-2 text-sm text-white/60">
+                  When enabled, this product will appear in the Featured products section on the homepage.
+                </p>
               </div>
             </Section>
 

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { addOrder } from '@/services/orders';
 import Link from 'next/link';
 import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle } from 'lucide-react';
 
@@ -26,15 +27,65 @@ const CheckoutPage = () => {
     });
   };
 
-  const orderSummary = {
-    items: [
-      { name: 'Royal Maroon Silk Kurta', price: 2499, quantity: 1 },
-      { name: 'Golden Banarasi Lehenga', price: 8999, quantity: 1 }
-    ],
-    subtotal: 11498,
-    shipping: 0,
-    total: 11498
-  };
+  const [summaryItems, setSummaryItems] = useState<Array<{ name: string; price: number; quantity: number }>>([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [shipping, setShipping] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const compute = () => {
+      try {
+        const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+        const isBuyNow = params?.get('buyNow') === 'true';
+
+        if (isBuyNow) {
+          const raw = localStorage.getItem('buyNowItem');
+          const item = raw ? JSON.parse(raw) : null;
+          const items = item
+            ? [{ name: item.name, price: Number(item.price) || 0, quantity: Number(item.quantity) || 1 }]
+            : [];
+          const sub = items.reduce((s, it) => s + it.price * it.quantity, 0);
+          const ship = sub > 5000 ? 0 : (sub > 0 ? 200 : 0);
+          setSummaryItems(items);
+          setSubtotal(sub);
+          setShipping(ship);
+          setTotal(sub + ship);
+          return;
+        }
+
+        const rawCart = localStorage.getItem('cart');
+        const cartItems: Array<{ name: string; price: number; quantity: number }> = rawCart ? JSON.parse(rawCart) : [];
+        const items = cartItems.map((it) => ({
+          name: it.name,
+          price: Number(it.price) || 0,
+          quantity: Number(it.quantity) || 1,
+        }));
+        const sub = items.reduce((s, it) => s + it.price * it.quantity, 0);
+        const ship = sub > 5000 ? 0 : (sub > 0 ? 200 : 0);
+        setSummaryItems(items);
+        setSubtotal(sub);
+        setShipping(ship);
+        setTotal(sub + ship);
+      } catch {
+        setSummaryItems([]);
+        setSubtotal(0);
+        setShipping(0);
+        setTotal(0);
+      }
+    };
+
+    compute();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'cart' || e.key === 'buyNowItem') compute();
+    };
+    const onCartUpdated = () => compute();
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('cart-updated', onCartUpdated as EventListener);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('cart-updated', onCartUpdated as EventListener);
+    };
+  }, []);
 
   if (step === 3) {
     return (
@@ -61,7 +112,7 @@ const CheckoutPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Total Amount:</span>
-                  <span className="font-semibold">₹{orderSummary.total.toLocaleString()}</span>
+                  <span className="font-semibold">₹{total.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Estimated Delivery:</span>
@@ -70,7 +121,7 @@ const CheckoutPage = () => {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/products" className="btn-primary">
+              <Link href="/" className="btn-primary">
                 Continue Shopping
               </Link>
               <Link href="/orders" className="btn-secondary">
@@ -355,7 +406,47 @@ const CheckoutPage = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setStep(3)}
+                    onClick={async () => {
+                      // Build order from formData and localStorage cart
+                      try {
+                        const rawCart = localStorage.getItem('cart');
+                        const cartItems: Array<{ id: string; name: string; price: number; quantity: number; size?: string; color?: string; }> =
+                          rawCart ? JSON.parse(rawCart) : [];
+                        const total = cartItems.reduce((sum, it) => sum + it.price * it.quantity, 0);
+                        const paid = formData.paymentMethod !== 'cod';
+                        await addOrder({
+                          createdAt: new Date().toISOString(),
+                          paid,
+                          paymentMethod: formData.paymentMethod as any,
+                          total,
+                          items: cartItems.map((it) => ({
+                            id: it.id,
+                            name: it.name,
+                            price: it.price,
+                            quantity: it.quantity,
+                            size: it.size,
+                            color: it.color,
+                          })),
+                          customer: {
+                            email: formData.email,
+                            firstName: formData.firstName,
+                            lastName: formData.lastName,
+                            phone: formData.phone,
+                            address: formData.address,
+                            city: formData.city,
+                            state: formData.state,
+                            pincode: formData.pincode,
+                          },
+                        });
+                        // Clear cart on successful order
+                        localStorage.removeItem('cart');
+                        window.dispatchEvent(new Event('cart-updated'));
+                        setStep(3);
+                      } catch (e) {
+                        console.error('Failed to place order', e);
+                        setStep(3);
+                      }
+                    }}
                     className="flex-1 btn-primary"
                   >
                     Place Order
@@ -378,7 +469,7 @@ const CheckoutPage = () => {
               </h2>
 
               <div className="space-y-4 mb-6">
-                {orderSummary.items.map((item, index) => (
+                {summaryItems.map((item, index) => (
                   <div key={index} className="flex justify-between">
                     <div>
                       <p className="font-medium text-royal-red">{item.name}</p>
@@ -389,24 +480,27 @@ const CheckoutPage = () => {
                     </span>
                   </div>
                 ))}
+                {summaryItems.length === 0 && (
+                  <div className="text-sm text-royal-brown/60">No items found.</div>
+                )}
               </div>
 
               <div className="space-y-2 mb-6 pt-4 border-t border-royal-brown/20">
                 <div className="flex justify-between">
                   <span className="text-royal-brown/70">Subtotal</span>
                   <span className="font-semibold text-royal-red">
-                    ₹{orderSummary.subtotal.toLocaleString()}
+                    ₹{subtotal.toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-royal-brown/70">Shipping</span>
                   <span className="font-semibold text-royal-red">
-                    {orderSummary.shipping === 0 ? 'FREE' : `₹${orderSummary.shipping}`}
+                    {shipping === 0 ? 'FREE' : `₹${shipping}`}
                   </span>
                 </div>
                 <div className="flex justify-between text-lg font-bold pt-2 border-t border-royal-brown/20">
                   <span className="text-royal-red">Total</span>
-                  <span className="text-royal-red">₹{orderSummary.total.toLocaleString()}</span>
+                  <span className="text-royal-red">₹{total.toLocaleString()}</span>
                 </div>
               </div>
 

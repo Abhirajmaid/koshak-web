@@ -346,7 +346,7 @@ const AccountPage = () => {
                   </div>
 
                   <div className="text-center mt-8">
-                    <Link href="/products" className="btn-primary">
+                    <Link href="/" className="btn-primary">
                       Continue Shopping
                     </Link>
                   </div>
@@ -363,7 +363,7 @@ const AccountPage = () => {
                     <Heart className="mx-auto text-royal-brown/40 mb-4" size={64} />
                     <h3 className="font-semibold text-royal-red text-xl mb-2">Your wishlist is empty</h3>
                     <p className="text-royal-brown/70 mb-6">Save items you love to your wishlist</p>
-                    <Link href="/products" className="btn-primary">
+                    <Link href="/" className="btn-primary">
                       Start Shopping
                     </Link>
                   </div>

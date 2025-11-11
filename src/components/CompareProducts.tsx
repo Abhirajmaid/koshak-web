@@ -97,7 +97,7 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
                   Add products to compare their features, specifications, and prices.
                 </p>
                 <Link
-                  href="/products"
+                  href="/"
                   onClick={onClose}
                   className="btn-primary inline-flex items-center"
                 >
@@ -189,7 +189,7 @@ const CompareProducts = ({ isOpen, onClose }: CompareProductsProps) => {
                         Add another product to compare
                       </p>
                       <Link
-                        href="/products"
+                        href="/"
                         onClick={onClose}
                         className="btn-secondary text-sm px-4 py-2"
                       >

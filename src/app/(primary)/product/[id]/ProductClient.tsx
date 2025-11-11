@@ -290,8 +290,8 @@ const ProductClient = ({ params, searchParams }: ProductClientProps) => {
           <p className="text-royal-brown/70 mb-8">
             {fetchError ?? "The product you&apos;re looking for doesn&apos;t exist or may have been removed."}
           </p>
-          <Link href="/products" className="btn-primary">
-            Back to Products
+          <Link href="/" className="btn-primary">
+            Back to Home
           </Link>
         </div>
       </div>
@@ -317,11 +317,11 @@ const ProductClient = ({ params, searchParams }: ProductClientProps) => {
           className="mb-4"
         >
           <Link
-            href="/products"
+            href="/"
             className="inline-flex items-center text-royal-brown hover:text-royal-red transition-colors duration-300"
           >
             <ArrowLeft className="mr-2" size={20} />
-            Back to Products
+            Back to Home
           </Link>
         </motion.div>
 
@@ -1127,110 +1127,9 @@ const ProductClient = ({ params, searchParams }: ProductClientProps) => {
           </div>
         </motion.section>
 
-        {/* Frequently Bought Together - moved after description tabs */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="mt-8 lg:mt-12"
-        >
-          <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-6 lg:p-8">
-            <h2 className="font-royal text-xl sm:text-2xl font-bold text-royal-red mb-6">
-              Frequently Bought Together
-            </h2>
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-20 bg-royal-cream/50 rounded-lg flex items-center justify-center">
-                  <span className="text-royal-red font-semibold">
-                    This Item
-                  </span>
-                </div>
-                <span className="text-royal-brown/60 text-2xl">+</span>
-                <div className="w-20 h-20 bg-royal-cream/50 rounded-lg flex items-center justify-center">
-                  <span className="text-royal-red font-semibold text-sm text-center">
-                    Matching Dupatta
-                  </span>
-                </div>
-                <span className="text-royal-brown/60 text-2xl">+</span>
-                <div className="w-20 h-20 bg-royal-cream/50 rounded-lg flex items-center justify-center">
-                  <span className="text-royal-red font-semibold text-sm text-center">
-                    Jewelry Set
-                  </span>
-                </div>
-              </div>
-              <div className="text-center sm:text-left">
-                <p className="text-royal-brown/80 mb-2">
-                  Total Price:{" "}
-                  <span className="font-bold text-royal-red">
-                    ₹{(product.price + 899 + 1999).toLocaleString()}
-                  </span>
-                </p>
-                <p className="text-green-600 font-medium mb-4">
-                  Save ₹500 when bought together!
-                </p>
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={hapticFeedback}
-                  className="btn-secondary px-6 py-2 text-sm"
-                >
-                  Add All to Cart
-                </motion.button>
-              </div>
-            </div>
-          </div>
-        </motion.section>
+        {/* Frequently Bought Together - removed hard-coded metadata */}
 
-        {/* Related Products */}
-        {relatedProducts.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mt-20"
-          >
-            <h2 className="font-royal text-2xl md:text-3xl font-bold text-royal-red mb-8">
-              You May Also Like
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {relatedProducts.map((relatedProduct) => (
-                <Link
-                  key={relatedProduct.id}
-                  href={`/product/${encodeURIComponent(
-                    relatedProduct.slug || relatedProduct.handle || relatedProduct.id,
-                  )}?productId=${encodeURIComponent(relatedProduct.id)}`}
-                  className="group"
-                >
-                  <div className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                    <div className="relative h-48">
-                      <img
-                        src={relatedProduct.image}
-                        alt={relatedProduct.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold text-royal-red mb-2 group-hover:text-royal-maroon transition-colors duration-300">
-                        {relatedProduct.name}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-royal-red">
-                          ₹{relatedProduct.price.toLocaleString()}
-                        </span>
-                        {relatedProduct.originalPrice && (
-                          <span className="text-royal-brown/50 text-sm line-through">
-                            ₹{relatedProduct.originalPrice.toLocaleString()}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </motion.section>
-        )}
+        {/* Related Products - removed hard-coded metadata section title */}
 
         {/* Sticky Bottom Bar: price + actions */}
         <div className="fixed bottom-3 left-0 right-0 z-40">

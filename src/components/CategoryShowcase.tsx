@@ -89,29 +89,7 @@ const CategoryShowcase = () => {
           )}
         </div>
 
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center mt-10 sm:mt-12 lg:mt-16"
-        >
-          <motion.div whileTap={{ scale: 0.95 }}>
-            <Link
-              href="/products"
-              onClick={() => {
-                if (typeof window !== 'undefined' && 'vibrate' in navigator) {
-                  navigator.vibrate(50);
-                }
-              }}
-              className="btn-primary inline-flex items-center group px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base"
-            >
-              View All Products
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={18} />
-            </Link>
-          </motion.div>
-        </motion.div>
+       
       </div>
     </section>
   );

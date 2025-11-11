@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { getFirebaseApp } from "@/lib/firebase";
 import { subscribeToProductForms, removeProductForm } from "@/services/products";
 import type { ProductFormData } from "@/types/admin";
@@ -10,19 +11,23 @@ import { AdminProductsView } from "./AdminProductsView";
 import { ViewProductModal } from "./ViewProductModal";
 import { DeleteProductModal } from "./DeleteProductModal";
 import { ModifyProductPage } from "./ModifyProductPage";
+import { AdminShoppingView } from "./AdminShoppingView";
 
-type AdminView = "dashboard" | "products" | "modify" | "view" | "delete";
+type AdminView = "dashboard" | "products" | "shopping" | "modify" | "view" | "delete";
 
 interface AdminDashboardNewProps {
   adminEmail: string;
   onSignOut: () => void;
+  initialView?: Exclude<AdminView, "modify" | "view" | "delete">;
 }
 
 export const AdminDashboardNew = ({
   adminEmail,
   onSignOut,
+  initialView,
 }: AdminDashboardNewProps) => {
-  const [currentView, setCurrentView] = useState<AdminView>("dashboard");
+  const router = useRouter();
+  const [currentView, setCurrentView] = useState<AdminView>(initialView ?? "dashboard");
   const [products, setProducts] = useState<Record<string, ProductFormData>>({});
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -110,10 +115,18 @@ export const AdminDashboardNew = ({
     <div className="flex min-h-screen bg-gradient-to-br from-neutral-950 via-black to-neutral-900">
       {/* Sidebar */}
       <AdminSidebar
-        activeSection={currentView === "dashboard" ? "dashboard" : "products"}
+        activeSection={currentView === "dashboard" ? "dashboard" : currentView === "shopping" ? "shopping" : "products"}
         onSectionChange={(section) => {
           setCurrentView(section);
           setSelectedProductId(null);
+          // Navigate to dedicated pages
+          if (section === "dashboard") {
+            router.push("/admin/dashboard");
+          } else if (section === "products") {
+            router.push("/admin/products");
+          } else if (section === "shopping") {
+            router.push("/admin/shopping");
+          }
         }}
         adminEmail={adminEmail}
         onSignOut={onSignOut}
@@ -124,7 +137,7 @@ export const AdminDashboardNew = ({
         {/* Right-aligned dynamic title */}
         <div className="mb-6 flex justify-end">
           <h1 className="text-2xl font-semibold text-white">
-            {currentView === "dashboard" ? "Dashboard" : "Products"}
+            {currentView === "dashboard" ? "Dashboard" : currentView === "shopping" ? "Shopping" : "Products"}
           </h1>
         </div>
         {errorMessage && (
@@ -151,6 +164,10 @@ export const AdminDashboardNew = ({
                 onDelete={handleDeleteProduct}
                 onAddNew={handleAddNew}
               />
+            )}
+
+            {currentView === "shopping" && (
+              <AdminShoppingView />
             )}
 
             {currentView === "modify" && (

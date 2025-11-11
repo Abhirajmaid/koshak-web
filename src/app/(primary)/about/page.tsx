@@ -286,7 +286,7 @@ const AboutPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/products"
+                href="/"
                 className="bg-royal-gold hover:bg-yellow-500 text-royal-brown font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105"
               >
                 Shop Now

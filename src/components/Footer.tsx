@@ -50,7 +50,7 @@ const Footer = () => {
                 {[
                   { name: 'Home', href: '/' },
                   { name: 'About Us', href: '/about' },
-                  { name: 'All Products', href: '/products' },
+                  { name: 'All Products', href: '/' },
                   { name: 'Size Guide', href: '/size-guide' },
                   { name: 'Care Instructions', href: '/care' },
                 ].map((link) => (

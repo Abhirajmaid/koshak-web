@@ -76,11 +76,11 @@ const CategoryClient = ({ params }: CategoryClientProps) => {
           className="mb-8"
         >
           <Link
-            href="/products"
+            href="/"
             className="inline-flex items-center text-royal-brown hover:text-royal-red transition-colors duration-300"
           >
             <ArrowLeft className="mr-2" size={20} />
-            Back to Products
+            Back to Home
           </Link>
         </motion.div>
 

@@ -1,8 +1,8 @@
 "use client";
 
 interface AdminSidebarProps {
-  activeSection: "dashboard" | "products";
-  onSectionChange: (section: "dashboard" | "products") => void;
+  activeSection: "dashboard" | "products" | "shopping";
+  onSectionChange: (section: "dashboard" | "products" | "shopping") => void;
   adminEmail: string;
   onSignOut: () => void;
 }
@@ -43,6 +43,16 @@ export const AdminSidebar = ({
             }`}
           >
             Products
+          </button>
+          <button
+            onClick={() => onSectionChange("shopping")}
+            className={`w-full rounded-lg px-4 py-3 text-left text-sm font-medium transition ${
+              activeSection === "shopping"
+                ? "bg-white text-neutral-900"
+                : "text-white/70 hover:bg-white/10 hover:text-white"
+            }`}
+          >
+            Shopping
           </button>
         </nav>
 

@@ -101,28 +101,6 @@ const FeaturedProducts = () => {
           )}
         </div>
 
-        {/* View All Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center mt-8 sm:mt-10 lg:mt-12"
-        >
-          <motion.div whileTap={{ scale: 0.95 }}>
-            <Link
-              href="/products"
-              onClick={() => {
-                if (typeof window !== 'undefined' && 'vibrate' in navigator) {
-                  navigator.vibrate(50);
-                }
-              }}
-              className="btn-secondary inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base"
-            >
-              View All Products
-            </Link>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );
