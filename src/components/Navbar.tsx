@@ -16,19 +16,7 @@ const hapticFeedback = () => {
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [showBar, setShowBar] = useState(false);
   const { products } = useProducts();
-
-  // Show navbar after user scrolls a bit
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY || document.documentElement.scrollTop || 0;
-      setShowBar(y > 40);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   useEffect(() => {
     const calculateCartCount = () => {
@@ -83,48 +71,82 @@ const Navbar = () => {
   );
 
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: showBar ? 1 : 0, y: showBar ? 0 : -20 }}
-      transition={{ duration: 0.4 }}
-      className={`sticky top-0 z-50 ${showBar ? 'backdrop-blur-md' : 'pointer-events-none'} border-b border-white/10`}
-      style={{ background: showBar ? 'rgba(255,255,255,0.06)' : 'transparent' }}
-    >
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
-        <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
+    <nav className="sticky top-0 z-50 bg-gradient-to-b from-royal-cream via-white to-white border-b-2 border-royal-gold/30 shadow-md">
+      {/* Decorative top border */}
+      <div className="h-1 bg-gradient-to-r from-royal-red via-royal-gold to-royal-red"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 sm:h-18 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-1 sm:space-x-2" onClick={hapticFeedback}>
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-royal-red to-royal-maroon rounded-full flex items-center justify-center shadow-lg shadow-black/10">
-              <span className="text-royal-gold font-bold text-lg sm:text-xl">क</span>
+          <Link 
+            href="/" 
+            className="flex items-center space-x-2 sm:space-x-3 group" 
+            onClick={hapticFeedback}
+          >
+            <motion.div 
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-royal-red via-royal-maroon to-royal-red rounded-full flex items-center justify-center shadow-lg ring-2 ring-royal-gold/30">
+                <span className="text-royal-gold font-bold text-xl sm:text-2xl">क</span>
+              </div>
+              <div className="absolute -inset-1 bg-royal-gold/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </motion.div>
+            <div className="flex flex-col">
+              <span className="font-royal text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-royal-red to-royal-maroon bg-clip-text text-transparent">
+                Koshak
+              </span>
+              <span className="text-[10px] sm:text-xs text-royal-brown/70 -mt-1 font-medium">
+                Traditional Elegance
+              </span>
             </div>
-            <span className="font-royal text-xl sm:text-2xl md:text-3xl font-bold text-royal-red">
-              Koshak
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-3">
-            {navItems.map((item) => (
-              <Link
+          <div className="hidden lg:flex items-center space-x-1">
+            {navItems.map((item, index) => (
+              <motion.div
                 key={item.name}
-                href={item.href}
-                className="text-royal-brown/90 hover:text-royal-red transition-colors duration-300 font-medium relative group rounded-full px-3 py-1.5 border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur-md shadow-sm shadow-black/10"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                {item.name}
-                <span className="pointer-events-none absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-royal-gold group-hover:w-3/4 transition-all duration-300"></span>
-              </Link>
+                <Link
+                  href={item.href}
+                  className="relative px-4 py-2 mx-1 text-royal-brown font-medium text-sm sm:text-base transition-all duration-300 group"
+                  onClick={hapticFeedback}
+                >
+                  <span className="relative z-10">{item.name}</span>
+                  {/* Hover background */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-royal-gold/20 to-royal-red/20 rounded-lg"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileHover={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  {/* Bottom border on hover */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-royal-gold to-royal-red"
+                    initial={{ scaleX: 0 }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </Link>
+              </motion.div>
             ))}
           </div>
 
           {/* Right side icons */}
-          <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {/* Search - Hidden on mobile */}
             <motion.button 
               type="button"
               title="Search"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={hapticFeedback}
-              className="hidden sm:flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+              className="hidden sm:flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full bg-royal-cream/50 hover:bg-royal-gold/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
             >
               <Search size={18} className="sm:w-5 sm:h-5" />
             </motion.button>
@@ -133,46 +155,62 @@ const Navbar = () => {
             <motion.button 
               type="button"
               title="Wishlist"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={hapticFeedback}
-              className="hidden sm:flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+              className="hidden sm:flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full bg-royal-cream/50 hover:bg-royal-gold/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
             >
               <Heart size={18} className="sm:w-5 sm:h-5" />
             </motion.button>
 
             {/* Account */}
-            <Link
-              href="/account"
-              onClick={hapticFeedback}
-              className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <User size={18} className="sm:w-5 sm:h-5" />
-            </Link>
+              <Link
+                href="/account"
+                onClick={hapticFeedback}
+                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full bg-royal-cream/50 hover:bg-royal-gold/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
+              >
+                <User size={18} className="sm:w-5 sm:h-5" />
+              </Link>
+            </motion.div>
 
             {/* Cart */}
-            <Link 
-              href="/cart" 
-              onClick={hapticFeedback} 
-              className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <ShoppingBag size={18} className="sm:w-5 sm:h-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-royal-red text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-[10px] sm:text-xs">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
+              <Link 
+                href="/cart" 
+                onClick={hapticFeedback} 
+                className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full bg-royal-cream/50 hover:bg-royal-gold/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
+              >
+                <ShoppingBag size={18} className="sm:w-5 sm:h-5" />
+                {cartCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-1 -right-1 bg-gradient-to-br from-royal-red to-royal-maroon text-white text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-[10px] sm:text-xs font-bold shadow-lg ring-2 ring-white"
+                  >
+                    {cartCount}
+                  </motion.span>
+                )}
+              </Link>
+            </motion.div>
 
             {/* Mobile menu button */}
             <motion.button
               type="button"
               title="Menu"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
                 hapticFeedback();
                 setIsMenuOpen(!isMenuOpen);
               }}
-              className="lg:hidden flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+              className="lg:hidden flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 text-royal-brown hover:text-royal-red transition-colors duration-300 rounded-full bg-royal-cream/50 hover:bg-royal-gold/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
             >
               {isMenuOpen ? <X size={20} className="sm:w-6 sm:h-6" /> : <Menu size={20} className="sm:w-6 sm:h-6" />}
             </motion.button>
@@ -187,10 +225,9 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-white/10 backdrop-blur-md"
-            style={{ background: 'rgba(255,255,255,0.06)' }}
+            className="lg:hidden bg-gradient-to-b from-white to-royal-cream/30 border-t-2 border-royal-gold/30 shadow-lg"
           >
-            <div className="px-3 sm:px-4 py-4 space-y-2">
+            <div className="px-4 py-4 space-y-2">
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.name}
@@ -204,7 +241,7 @@ const Navbar = () => {
                       hapticFeedback();
                       setIsMenuOpen(false);
                     }}
-                    className="block py-3 px-3 text-royal-brown/90 hover:text-royal-red transition-colors duration-300 font-medium text-base rounded-xl border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+                    className="block py-3 px-4 text-royal-brown hover:text-royal-red transition-all duration-300 font-medium text-base rounded-lg bg-royal-cream/50 hover:bg-gradient-to-r hover:from-royal-gold/20 hover:to-royal-red/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
                   >
                     {item.name}
                   </Link>
@@ -212,12 +249,12 @@ const Navbar = () => {
               ))}
               
               {/* Mobile-only search and wishlist */}
-              <div className="sm:hidden pt-4 border-t border-royal-gold/20 mt-4">
+              <div className="sm:hidden pt-4 border-t border-royal-gold/30 mt-4 space-y-2">
                 <motion.button
                   type="button"
                   whileTap={{ scale: 0.95 }}
                   onClick={hapticFeedback}
-                  className="flex items-center space-x-3 w-full py-3 px-3 text-royal-brown/90 hover:text-royal-red transition-colors duration-300 font-medium text-base rounded-xl border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+                  className="flex items-center space-x-3 w-full py-3 px-4 text-royal-brown hover:text-royal-red transition-all duration-300 font-medium text-base rounded-lg bg-royal-cream/50 hover:bg-gradient-to-r hover:from-royal-gold/20 hover:to-royal-red/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
                 >
                   <Search size={18} />
                   <span>Search</span>
@@ -226,7 +263,7 @@ const Navbar = () => {
                   type="button"
                   whileTap={{ scale: 0.95 }}
                   onClick={hapticFeedback}
-                  className="flex items-center space-x-3 w-full py-3 px-3 text-royal-brown/90 hover:text-royal-red transition-colors duration-300 font-medium text-base rounded-xl border border-white/10 bg-white/10 hover:bg-white/20 backdrop-blur"
+                  className="flex items-center space-x-3 w-full py-3 px-4 text-royal-brown hover:text-royal-red transition-all duration-300 font-medium text-base rounded-lg bg-royal-cream/50 hover:bg-gradient-to-r hover:from-royal-gold/20 hover:to-royal-red/20 border border-royal-brown/20 hover:border-royal-gold/50 shadow-sm"
                 >
                   <Heart size={18} />
                   <span>Wishlist</span>
@@ -236,7 +273,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </nav>
   );
 };
 
